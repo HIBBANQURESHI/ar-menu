@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Markerless AR Menu</title>
+  <meta charset="utf-8">
+  <title>AR Menu</title>
 
   <!-- A-Frame -->
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
-  <!-- WebXR AR -->
-  <script src="https://cdn.jsdelivr.net/npm/aframe-ar-hit-test-component@1.0.1/dist/aframe-ar-hit-test-component.min.js"></script>
+  <!-- MindAR -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <style>
+    body { margin: 0; overflow: hidden; }
+  </style>
 </head>
 
-<body style="margin:0; overflow:hidden;">
+<body>
 
 <a-scene
-  vr-mode-ui="enabled: false"
-  renderer="logarithmicDepthBuffer: true;"
+  mindar-image="imageTargetSrc: targets.mind;"
+  color-space="sRGB"
   embedded
-  ar-hit-test="target: #menu">
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false"
+>
+
+  <a-assets>
+    <img id="menu" src="menu.jpg">
+  </a-assets>
 
   <!-- Camera -->
-  <a-camera position="0 1.6 0"></a-camera>
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <!-- Menu Image -->
-  <a-image
-    id="menu"
-    src="menu.jpg"
-    scale="1 1 1"
-    rotation="-90 0 0"
-    visible="false">
-  </a-image>
+  <!-- AR Target -->
+  <a-entity mindar-image-target="targetIndex: 0">
+    
+    <!-- Menu Plane -->
+    <a-plane
+      src="#menu"
+      position="0 0 0"
+      height="1"
+      width="1.5"
+      rotation="0 0 0">
+    </a-plane>
+
+  </a-entity>
 
 </a-scene>
-
-<script>
-  const menu = document.querySelector("#menu");
-
-  document.body.addEventListener("click", () => {
-    menu.setAttribute("visible", "true");
-  });
-</script>
 
 </body>
 </html>
